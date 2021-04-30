@@ -413,25 +413,19 @@ def cornersHeuristic(state, problem):
 
     "*** YOUR CODE HERE ***"
     node = state[0]
-    Visited_Corners = state[1]
-    h_sum = 0
+    visitedCorners = state[1]
+    heuristic = 0
 
-    un_Visited_Corner = []
-    for i in range(4):
-        if corners[i] not in Visited_Corners:
-            un_Visited_Corner.append(corners[i])
+    unvisitedCorner = [corner for corner in corners if corner not in visitedCorners]
 
-    # print len(un_Visited_Corner)
+    currentPos = node
 
-    cur_position = node
-    while len(un_Visited_Corner) != 0:
-        distance, corner = min([(util.manhattanDistance(
-            cur_position, corner), corner) for corner in un_Visited_Corner])
-        h_sum = h_sum + distance
-        cur_position = corner
-        un_Visited_Corner.remove(corner)
-
-    return h_sum  # Default to trivial solution
+    while unvisitedCorner:
+        distance, corner = min([(util.manhattanDistance(currentPos, corner), corner) for corner in unvisitedCorner])
+        heuristic = heuristic + distance
+        currentPos = corner
+        unvisitedCorner.remove(corner)
+    return heuristic
 
 
 class AStarCornersAgent(SearchAgent):
